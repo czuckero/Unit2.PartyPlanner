@@ -57,13 +57,21 @@ const addPartyForm = document.querySelector("#addParty");
 addPartyForm.addEventListener("submit", addParty);
 
 // Async function to create a new party to add to the API
-async function createParty(name, date, location, description) {
-  
+async function addParty(event) {
+  event.preventDefault();
+
+  let formData = {
+    name: addPartyForm.name.value,
+    date: new Date(addPartyForm.date.value),
+    location: addPartyForm.location.value,
+    description: addPartyForm.description.value
+  }
+
   try {
     const response = await fetch(partiesAPI, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({name, date, location, description}),
+      body: JSON.stringify(formData),
     });
     const json = await response.json();
     console.log("New party", json);
@@ -78,16 +86,17 @@ async function createParty(name, date, location, description) {
 };
 
 // Async function to call the createParty function with the respective arguments 
-// and add them to the API
-async function addParty(event) {
-  event.preventDefault();
-  await createParty(
-    addPartyForm.name.value,
-    addPartyForm.date.value,
-    addPartyForm.location.value,
-    addPartyForm.description.value
-  );
-}
+// and add them to the API ///NO LONGER IN USE//
+// async function addParty(event) {
+//   event.preventDefault();
+//   await createParty(
+//     addPartyForm.name.value,
+//     addPartyForm.date.value,
+//     addPartyForm.time.value,
+//     addPartyForm.location.value,
+//     addPartyForm.description.value
+//   );
+// }
 
 // Async function to delete party based on the ID it is given
 async function deleteParty(id) {
